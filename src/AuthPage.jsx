@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { DollarSign, Mail, Lock, User, ArrowRight, Sparkles, LogIn } from 'lucide-react'
+import { DollarSign, Mail, Lock, User, ArrowRight, Sparkles, LogIn, UserPlus, ArrowLeft, KeyRound } from 'lucide-react'
 import { API_URL } from './config'
 
 export default function AuthPage({ onLogin, onGuestMode }) {
