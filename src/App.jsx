@@ -4,6 +4,7 @@ import ReceiptScanner from './ReceiptScanner'
 import AuthPage from './AuthPage'
 import HomeContent from './HomeContent'
 import AssistantChat from './AssistantChat'
+import { API_URL } from './config'
 
 function App() {
   const [authenticatedUser, setAuthenticatedUser] = useState(null)
@@ -60,7 +61,7 @@ function App() {
 
   // Fetch data
   const fetchPeople = async () => {
-    const res = await fetch('/api/people')
+    const res = await fetch(`${API_URL}/api/people`)
     const data = await res.json()
     setPeople(data)
   }
@@ -87,25 +88,25 @@ function App() {
   }
 
   const fetchExpenses = async () => {
-    const res = await fetch('/api/expenses')
+    const res = await fetch(`${API_URL}/api/expenses`)
     const data = await res.json()
     setExpenses(data)
   }
 
   const fetchBalances = async () => {
-    const res = await fetch('/api/balances')
+    const res = await fetch(`${API_URL}/api/balances`)
     const data = await res.json()
     setBalances(data)
   }
 
   const fetchGroups = async () => {
-    const res = await fetch('/api/groups')
+    const res = await fetch(`${API_URL}/api/groups`)
     const data = await res.json()
     setGroups(data)
   }
 
   const fetchProfile = async () => {
-    const res = await fetch('/api/profile')
+    const res = await fetch(`${API_URL}/api/profile`)
     const data = await res.json()
     if (data) {
       setUserProfile(data)
@@ -225,7 +226,7 @@ function App() {
     e.preventDefault()
     if (!newPersonName.trim()) return
     
-    const response = await fetch('/api/people', {
+    const response = await fetch(`${API_URL}/api/people`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: newPersonName, phone: newPersonPhone })
@@ -246,7 +247,7 @@ function App() {
   }
 
   const handleDeletePerson = async (id) => {
-    await fetch(`/api/people/${id}`, { method: 'DELETE' })
+    await fetch(`${API_URL}/api/people/${id}`, { method: 'DELETE' })
     fetchPeople()
     fetchBalances()
   }
@@ -272,7 +273,7 @@ function App() {
       }
       
       // Create the group
-      await fetch('/api/groups', {
+      await fetch(`${API_URL}/api/groups`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(groupData)
@@ -284,7 +285,7 @@ function App() {
     }
     
     // Still create the expense
-    await fetch('/api/expenses', {
+    await fetch(`${API_URL}/api/expenses`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newExpense)
@@ -327,7 +328,7 @@ function App() {
           
           // Send SMS notification
           notifications.push(
-            fetch('/api/notify-expense', {
+            fetch(`${API_URL}/api/notify-expense`, {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
               body: JSON.stringify({
@@ -403,7 +404,7 @@ function App() {
       return
     }
 
-    await fetch('/api/request-funds', {
+    await fetch(`${API_URL}/api/request-funds`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ to: person.phone, amount, owedBy, owedTo })
@@ -413,7 +414,7 @@ function App() {
   }
 
   const handleCreateGroup = async (groupData) => {
-    await fetch('/api/groups', {
+    await fetch(`${API_URL}/api/groups`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(groupData)
@@ -439,7 +440,7 @@ function App() {
     e.preventDefault()
     if (!newPersonName.trim()) return
     
-    await fetch('/api/people', {
+    await fetch(`${API_URL}/api/people`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name: newPersonName, phone: newPersonPhone })
@@ -459,7 +460,7 @@ function App() {
       return
     }
     
-    await fetch('/api/profile', {
+    await fetch(`${API_URL}/api/profile`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(profileForm)
@@ -478,7 +479,7 @@ function App() {
       return
     }
     
-    await fetch('/api/expenses', {
+    await fetch(`${API_URL}/api/expenses`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(newExpense)
@@ -546,14 +547,14 @@ function App() {
 
   // Delete expense
   const deleteExpense = async (id) => {
-    await fetch(`/api/expenses/${id}`, { method: 'DELETE' })
+    await fetch(`${API_URL}/api/expenses/${id}`, { method: 'DELETE' })
     fetchExpenses()
     fetchBalances()
   }
 
   // Settle debt
   const settleDebt = async (from, to, amount) => {
-    await fetch('/api/settle', {
+    await fetch(`${API_URL}/api/settle`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ from, to, amount })
@@ -633,7 +634,7 @@ function App() {
       return
     }
     
-    const res = await fetch('/api/send-reminder', {
+    const res = await fetch(`${API_URL}/api/send-reminder`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ fromPersonId, toPersonId, amount })

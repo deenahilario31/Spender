@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react'
-import { MessageSquare, Send, Sparkles, Loader } from 'lucide-react'
+import { Send, Sparkles, Loader } from 'lucide-react'
+import { API_URL } from './config'
 
 export default function AssistantChat({ authenticatedUser, onExpenseAdded }) {
   const [messages, setMessages] = useState([
@@ -39,7 +40,7 @@ What would you like to do?`
     
     try {
       // Send to backend
-      const response = await fetch('/api/assistant/chat', {
+      const response = await fetch(`${API_URL}/api/assistant/chat`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

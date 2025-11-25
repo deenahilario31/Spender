@@ -1,7 +1,8 @@
 import { useState } from 'react'
-import { DollarSign, Mail, Phone, Lock, User, LogIn, UserPlus, KeyRound, ArrowLeft } from 'lucide-react'
+import { DollarSign, Mail, Lock, User, ArrowRight, Sparkles } from 'lucide-react'
+import { API_URL } from './config'
 
-function AuthPage({ onLogin, onGuestMode }) {
+export default function AuthPage({ onLogin, onGuestMode }) {
   const [isLogin, setIsLogin] = useState(true)
   const [showForgotPassword, setShowForgotPassword] = useState(false)
   const [showResetForm, setShowResetForm] = useState(false)
@@ -77,7 +78,7 @@ function AuthPage({ onLogin, onGuestMode }) {
     setLoading(true)
 
     try {
-      const res = await fetch('/api/auth/forgot-password', {
+      const res = await fetch(`${API_URL}/api/auth/forgot-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: resetData.email })
@@ -103,7 +104,7 @@ function AuthPage({ onLogin, onGuestMode }) {
     setLoading(true)
 
     try {
-      const res = await fetch('/api/auth/reset-password', {
+      const res = await fetch(`${API_URL}/api/auth/reset-password`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(resetData)
@@ -618,5 +619,3 @@ function AuthPage({ onLogin, onGuestMode }) {
     </div>
   )
 }
-
-export default AuthPage
