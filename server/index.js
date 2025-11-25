@@ -7,9 +7,13 @@ import { processMessage, generateFollowUp } from './assistant.js';
 dotenv.config();
 
 const app = express();
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 
-app.use(cors());
+// Configure CORS to allow requests from Netlify
+app.use(cors({
+  origin: ['https://spend3r.netlify.app', 'http://localhost:5173', 'http://localhost:5174'],
+  credentials: true
+}));
 app.use(express.json());
 
 // In-memory data store (in production, use a database)
@@ -22,6 +26,15 @@ let nextExpenseId = 1;
 let nextPersonId = 1;
 let nextGroupId = 1;
 let nextUserId = 1;
+
+// Health check endpoint
+app.get('/', (req, res) => {
+  res.json({ status: 'ok', message: 'Spender API is running', timestamp: new Date().toISOString() });
+});
+
+app.get('/api/health', (req, res) => {
+  res.json({ status: 'ok', message: 'Spender API is healthy' });
+});
 
 // Auth endpoints
 // Sign up
