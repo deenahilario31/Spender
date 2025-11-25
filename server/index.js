@@ -666,7 +666,7 @@ app.post('/api/assistant/chat', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`Server running on http://0.0.0.0:${PORT}`);
   console.log(`🤖 AI Assistant: ${process.env.OPENAI_API_KEY ? '✅ Enabled' : '❌ Disabled (add OPENAI_API_KEY to .env)'}`);
 });
